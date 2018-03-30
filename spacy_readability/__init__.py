@@ -2,6 +2,7 @@
 from spacy.tokens import Doc, Span, Token
 
 from .about import __version__
+from .words import word_list
 
 
 class Readability(object):
@@ -10,7 +11,7 @@ class Readability(object):
     def __init__(self, nlp):
         Doc.set_extension('flesch_kincaid_grade_level', getter=self.fk_grade)
         Doc.set_extension('flesch_kincaid_ease', getter=self.fk_ease)
-        Doc.set_extension('dale_chall', default=0)
+        Doc.set_extension('dale_chall', getter=self.dale_chall)
 
     def __call__(self, doc):
         self.num_sents = len(list(doc.sents))
@@ -19,13 +20,24 @@ class Readability(object):
         return doc
     
     def fk_grade(self, doc):
-         return (11.8 * self.num_syllables / self.num_words) + (0.39 * self.num_words / self.num_sents) - 15.59
+        return (11.8 * self.num_syllables / self.num_words) + (0.39 * self.num_words / self.num_sents) - 15.59
         
     def fk_ease(self, doc):
         return 206.835 - ((1.015 * self.num_words) / self.num_sents) - ((84.6 * self.num_syllables) / self.num_words)
     
     def dale_chall(self, doc):
-        return 0
+        diff_words_count = 0
+        for word in doc:
+            if word.text not in word_list:
+                diff_words_count += 1
+        
+        percent_difficult_words = 100 * diff_words_count / self.num_words
+        average_sentence_length = self.num_words / self.num_sents
+        grade = 0.1579 * (percent_difficult_words) + 0.0496 * average_sentence_length 
+        
+        if percent_difficult_words > 5:
+            grade += 3.6365
+        return grade
     
     def getNumWords(self, doc):
         # filter spaces
