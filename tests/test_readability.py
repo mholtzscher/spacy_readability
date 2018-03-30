@@ -8,4 +8,5 @@ def nlp():
     return English()
 
 def test_simple(nlp):
-    assert True
+    doc = nlp("sample")
+    assert doc
