@@ -6,14 +6,34 @@ from .words import word_list
 
 
 class Readability(object):
+    """spaCy v2.0 pipeline component for calculating readability scores of of text. Provides scores for
+    Flesh-Kincaid grade level, Flesh-Kincaid reading ease, and Dale-Chall.
+    USAGE:
+        >>> import spacy
+        >>> from spacy_readability import Readability
+        >>> nlp = spacy.load('en')
+        >>> read = Readability(nlp)
+        >>> nlp.add_pipe(read, last=True)
+        >>> doc = nlp("I am some really difficult text to read because I use obnoxiously large words.")
+        >>> doc._.flesch_kincaid_grade_level
+        >>> doc._.flesch_kincaid_reading_ease
+        >>> doc._.dale_chall
+    """
+
     name = 'readability'
 
     def __init__(self, nlp):
+        """Initialise the pipeline component.
+        """
         Doc.set_extension('flesch_kincaid_grade_level', getter=self.fk_grade)
         Doc.set_extension('flesch_kincaid_reading_ease', getter=self.fk_ease)
         Doc.set_extension('dale_chall', getter=self.dale_chall)
 
     def __call__(self, doc):
+        """Apply the pipeline component to a `Doc` object.
+        doc (Doc): The `Doc` returned by the previous pipeline component.
+        RETURNS (Doc): The modified `Doc` object.
+        """
         self.num_sentences = len(list(doc.sents))
         self.num_words = self.get_num_words(doc)
         self.num_syllables = self.get_num_syllables(doc)
@@ -23,7 +43,8 @@ class Readability(object):
         return (11.8 * self.num_syllables / self.num_words) + (0.39 * self.num_words / self.num_sentences) - 15.59
 
     def fk_ease(self):
-        return 206.835 - ((1.015 * self.num_words) / self.num_sentences) - ((84.6 * self.num_syllables) / self.num_words)
+        return 206.835 - ((1.015 * self.num_words) / self.num_sentences) - (
+                    (84.6 * self.num_syllables) / self.num_words)
 
     def dale_chall(self, doc):
         diff_words_count = 0
