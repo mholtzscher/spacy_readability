@@ -1,4 +1,4 @@
-#spacy-readability
+# spacy-readability
 **************************
 [![Build Status](https://travis-ci.org/mholtzscher/spacy_readability.svg?branch=master)](https://travis-ci.org/mholtzscher/spacy_readability)
 [![PyPI version](https://badge.fury.io/py/spacy-readability.svg)](https://badge.fury.io/py/spacy-readability)
