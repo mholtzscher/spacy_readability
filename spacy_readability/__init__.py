@@ -1,7 +1,6 @@
 # coding: utf8
 from spacy.tokens import Doc
 
-from .about import __version__
 from .words import word_list
 
 
@@ -25,9 +24,14 @@ class Readability(object):
     def __init__(self):
         """Initialise the pipeline component.
         """
-        Doc.set_extension('flesch_kincaid_grade_level', getter=self.fk_grade)
-        Doc.set_extension('flesch_kincaid_reading_ease', getter=self.fk_ease)
-        Doc.set_extension('dale_chall', getter=self.dale_chall)
+        if not Doc.has_extension('flesch_kincaid_grade_level'):
+            Doc.set_extension('flesch_kincaid_grade_level', getter=self.fk_grade)
+
+        if not Doc.has_extension('flesch_kincaid_reading_ease'):
+            Doc.set_extension('flesch_kincaid_reading_ease', getter=self.fk_ease)
+
+        if not Doc.has_extension('dale_chall'):
+            Doc.set_extension('dale_chall', getter=self.dale_chall)
 
     def __call__(self, doc):
         """Apply the pipeline component to a `Doc` object.
