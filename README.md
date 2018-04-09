@@ -25,3 +25,15 @@ doc._.flesch_kincaid_grade_level
 doc._.flesch_kincaid_reading_ease
 doc._.dale_chall
 ```
+
+## Readability Scores
+
+Readability is the ease with which a reader can understand a written text. In natural language, the readability of text depends on its content (the complexity of its vocabulary and syntax) and its presentation (such as typographic aspects like font size, line height, and line length).
+
+### Popular Metrics
+* The Flesch formulas
+  * Flesch-Kincaid Readability Score
+  * Flesch-Kincaid Reading Ease
+* Dale-Chall formula
+
+[For more in depth reading.](https://en.wikipedia.org/wiki/Readability)
