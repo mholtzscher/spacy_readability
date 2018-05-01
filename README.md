@@ -24,6 +24,7 @@ doc = nlp("I am some really difficult text to read because I use obnoxiously lar
 doc._.flesch_kincaid_grade_level
 doc._.flesch_kincaid_reading_ease
 doc._.dale_chall
+doc._.smog
 ```
 
 ## Readability Scores
@@ -35,5 +36,6 @@ Readability is the ease with which a reader can understand a written text. In na
   * Flesch-Kincaid Readability Score
   * Flesch-Kincaid Reading Ease
 * Dale-Chall formula
+* SMOG
 
 [For more in depth reading.](https://en.wikipedia.org/wiki/Readability)

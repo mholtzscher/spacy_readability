@@ -1,4 +1,6 @@
 # coding: utf8
+from math import sqrt
+
 from spacy.tokens import Doc
 
 from .words import word_list
@@ -17,6 +19,7 @@ class Readability(object):
         >>> doc._.flesch_kincaid_grade_level
         >>> doc._.flesch_kincaid_reading_ease
         >>> doc._.dale_chall
+        >>> doc._.smog
     """
 
     name = 'readability'
@@ -32,6 +35,9 @@ class Readability(object):
 
         if not Doc.has_extension('dale_chall'):
             Doc.set_extension('dale_chall', getter=self.dale_chall)
+
+        if not Doc.has_extension('smog'):
+            Doc.set_extension('smog', getter=self.smog)
 
     def __call__(self, doc):
         """Apply the pipeline component to a `Doc` object.
@@ -73,16 +79,26 @@ class Readability(object):
             grade += 3.6365
         return grade
 
+    def smog(self, doc):
+        """Returns the SMOG score for the document. If there are less than 30 sentences then
+        it returns 0 because he formula significantly loses accuracy on small corpora.
+        """
+        if self.num_sentences < 30 or self.num_words == 0:
+            return 0
+
+        num_poly = self.get_num_syllables(doc, min_syllables=3)
+        return 1.0430 * sqrt(num_poly * 30 / self.num_sentences) + 3.1291
+
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)
-        words_ = (w for w in doc if not w.is_punct and not w.text.startswith("'"))
+        words_ = (word for word in doc if not word.is_punct and not word.text.startswith("'"))
         return len(list(words_))
 
-    def get_num_syllables(self, doc):
+    def get_num_syllables(self, doc, min_syllables=1):
         # filter punctuation and words that start with apostrophe (aka contractions)
-        words_ = (w for w in doc if not w.is_punct and not w.text.startswith("'"))
-        syllables_per_word = tuple(self.syllables(word) for word in words_)
-        return sum(syllables_per_word)
+        text = (word for word in doc if not word.is_punct and not word.text.startswith("'"))
+        syllables_per_word = tuple(self.syllables(word) for word in text)
+        return sum(c for c in syllables_per_word if c >= min_syllables)
 
     def syllables(self, token):
         count = 0

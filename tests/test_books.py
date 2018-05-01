@@ -18,34 +18,45 @@ def nlp():
     return pipeline
 
 
-@pytest.mark.parametrize("input,expected", [
+@pytest.mark.parametrize("text,expected", [
     (oliver_twist, 11.64),
     (secret_garden, 6.00),
     (flatland, 13.51),
     (textacy_corpus, 12.30)
 ])
-def test_flesch_kincaid_grade_level(input, expected, nlp):
-    doc = nlp(input)
+def test_flesch_kincaid_grade_level(text, expected, nlp):
+    doc = nlp(text)
     assert doc._.flesch_kincaid_grade_level == pytest.approx(expected, rel=1e-2)
 
 
-@pytest.mark.parametrize("input,expected", [
+@pytest.mark.parametrize("text,expected", [
     (oliver_twist, 60.94),
     (secret_garden, 80.49),
     (flatland, 58.11),
     (textacy_corpus, 48.39)
 ])
-def test_flesch_kincaid_reading_ease(input, expected, nlp):
-    doc = nlp(input)
+def test_flesch_kincaid_reading_ease(text, expected, nlp):
+    doc = nlp(text)
     assert doc._.flesch_kincaid_reading_ease == pytest.approx(expected, rel=1e-2)
 
 
-@pytest.mark.parametrize("input,expected", [
+@pytest.mark.parametrize("text,expected", [
     (oliver_twist, 9.72),
     (secret_garden, 8.49),
     (flatland, 9.48),
     (textacy_corpus, 10.54)
 ])
-def test_dale_chall(input, expected, nlp):
-    doc = nlp(input)
+def test_dale_chall(text, expected, nlp):
+    doc = nlp(text)
     assert doc._.dale_chall == pytest.approx(expected, rel=1e-2)
+
+
+@pytest.mark.parametrize("text,expected", [
+    (oliver_twist, 19.89),
+    (secret_garden, 13.06),
+    (flatland, 0),
+    (textacy_corpus, 0)
+])
+def test_smog(text, expected, nlp):
+    doc = nlp(text)
+    assert expected == pytest.approx(doc._.smog, rel=1e-2)
