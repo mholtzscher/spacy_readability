@@ -13,13 +13,13 @@ class Readability(object):
         >>> import spacy
         >>> from spacy_readability import Readability
         >>> nlp = spacy.load('en')
-        >>> read = Readability(nlp)
+        >>> read = Readability()
         >>> nlp.add_pipe(read, last=True)
         >>> doc = nlp("I am some really difficult text to read because I use obnoxiously large words.")
-        >>> doc._.flesch_kincaid_grade_level
-        >>> doc._.flesch_kincaid_reading_ease
-        >>> doc._.dale_chall
-        >>> doc._.smog
+        >>> print(doc._.flesch_kincaid_grade_level)
+        >>> print(doc._.flesch_kincaid_reading_ease)
+        >>> print(doc._.dale_chall)
+        >>> print(doc._.smog)
     """
 
     name = 'readability'
@@ -66,7 +66,7 @@ class Readability(object):
 
         diff_words_count = 0
         for word in doc:
-            if not word.is_punct and not word.text.startswith("'"):
+            if not word.is_punct and "'" not in word.text:
                 if word.text.lower() not in word_list:
                     diff_words_count += 1
 
@@ -91,12 +91,12 @@ class Readability(object):
 
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)
-        words_ = (word for word in doc if not word.is_punct and not word.text.startswith("'"))
+        words_ = (word for word in doc if not word.is_punct and "'" not in word.text)
         return len(list(words_))
 
     def get_num_syllables(self, doc, min_syllables=1):
         # filter punctuation and words that start with apostrophe (aka contractions)
-        text = (word for word in doc if not word.is_punct and not word.text.startswith("'"))
+        text = (word for word in doc if not word.is_punct and "'" not in word.text)
         syllables_per_word = tuple(self.syllables(word) for word in text)
         return sum(c for c in syllables_per_word if c >= min_syllables)
 
