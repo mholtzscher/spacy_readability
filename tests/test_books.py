@@ -60,3 +60,14 @@ def test_dale_chall(text, expected, nlp):
 def test_smog(text, expected, nlp):
     doc = nlp(text)
     assert expected == pytest.approx(doc._.smog, rel=1e-2)
+
+
+@pytest.mark.parametrize("text,expected", [
+    (oliver_twist, 7.14),
+    (secret_garden, 4.65),
+    (flatland, 6.26),
+    (textacy_corpus, 11.86)
+])
+def test_coleman_liau(text, expected, nlp):
+    doc = nlp(text)
+    assert expected == pytest.approx(doc._.coleman_liau_index, rel=1e-2)

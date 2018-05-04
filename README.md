@@ -27,6 +27,7 @@ print(doc._.flesch_kincaid_grade_level)
 print(doc._.flesch_kincaid_reading_ease)
 print(doc._.dale_chall)
 print(doc._.smog)
+print(doc._.coleman_liau_index)
 ```
 
 ## Readability Scores
@@ -39,5 +40,6 @@ Readability is the ease with which a reader can understand a written text. In na
   * Flesch-Kincaid Reading Ease
 * Dale-Chall formula
 * SMOG
+* Coleman-Liau Index
 
 [For more in depth reading.](https://en.wikipedia.org/wiki/Readability)
