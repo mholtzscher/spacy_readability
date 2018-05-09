@@ -21,6 +21,7 @@ class Readability(object):
         >>> print(doc._.dale_chall)
         >>> print(doc._.smog)
         >>> print(doc._.coleman_liau_index)
+        >>> print(doc._.automated_readability_index)
     """
 
     name = 'readability'
@@ -42,6 +43,9 @@ class Readability(object):
 
         if not Doc.has_extension('coleman_liau_index'):
             Doc.set_extension('coleman_liau_index', getter=self.coleman_liau)
+
+        if not Doc.has_extension('automated_readability_index'):
+            Doc.set_extension('automated_readability_index', getter=self.ari)
 
     def __call__(self, doc):
         """Apply the pipeline component to a `Doc` object.
@@ -99,6 +103,11 @@ class Readability(object):
         letters_to_words = letter_count / self.num_words * 100
         sent_to_words = self.num_sentences / self.num_words * 100
         return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
+
+    def ari(self, doc):
+        """Returns the Automated Readability Index for the document."""
+        letter_count = sum([len(token) for token in doc if not token.is_punct])
+        return 4.71 * (letter_count / self.num_words) + 0.5 * (self.num_words / self.num_sentences) - 21.43
 
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)

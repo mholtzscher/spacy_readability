@@ -71,3 +71,14 @@ def test_smog(text, expected, nlp):
 def test_coleman_liau(text, expected, nlp):
     doc = nlp(text)
     assert expected == pytest.approx(doc._.coleman_liau_index, rel=1e-2)
+
+
+@pytest.mark.parametrize("text,expected", [
+    (oliver_twist, 11.64),
+    (secret_garden, 4.43),
+    (flatland, 13.8),
+    (textacy_corpus, 13.41)
+])
+def test_ari(text, expected, nlp):
+    doc = nlp(text)
+    assert expected == pytest.approx(doc._.automated_readability_index, rel=1e-2)
