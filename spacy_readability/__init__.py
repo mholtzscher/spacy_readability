@@ -22,6 +22,7 @@ class Readability(object):
         >>> print(doc._.smog)
         >>> print(doc._.coleman_liau_index)
         >>> print(doc._.automated_readability_index)
+        >>> print(doc._.gunning_fog)
     """
 
     name = 'readability'
@@ -46,6 +47,9 @@ class Readability(object):
 
         if not Doc.has_extension('automated_readability_index'):
             Doc.set_extension('automated_readability_index', getter=self.ari)
+
+        if not Doc.has_extension('gunning_fog'):
+            Doc.set_extension('gunning_fog', getter=self.gunning_fog)
 
     def __call__(self, doc):
         """Apply the pipeline component to a `Doc` object.
@@ -113,6 +117,10 @@ class Readability(object):
         # filter punctuation and words that start with apostrophe (aka contractions)
         words_ = (word for word in doc if not word.is_punct and "'" not in word.text)
         return len(list(words_))
+
+    def gunning_fog(self, doc):
+        complex_words = self.get_num_syllables(doc, min_syllables=3)
+        return 0.4 * ((self.num_words / self.num_sentences) + 100 * (complex_words / self.num_words))
 
     def get_num_syllables(self, doc, min_syllables=1):
         # filter punctuation and words that start with apostrophe (aka contractions)

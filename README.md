@@ -29,6 +29,7 @@ print(doc._.dale_chall)
 print(doc._.smog)
 print(doc._.coleman_liau_index)
 print(doc._.automated_readability_index)
+print(doc._.gunning_fog)
 ```
 
 ## Readability Scores
