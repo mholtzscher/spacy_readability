@@ -16,7 +16,7 @@ def setup_package():
         exec(f.read(), about)
 
     # Get readme
-    readme_path = root / 'README.md'
+    readme_path = root / 'README.rst'
     with readme_path.open('r', encoding='utf8') as f:
         readme = f.read()
 
