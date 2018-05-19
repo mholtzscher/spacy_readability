@@ -1,5 +1,5 @@
 __title__ = 'spacy_readability'
-__version__ = '1.2.0'
+__version__ = '1.3.0'
 __summary__ = 'spaCy pipeline component for adding text readability meta data to Doc objects.'
 __uri__ = 'https://github.com/mholtzscher/spacy_readability'
 __author__ = 'Michael Holtzscher'
