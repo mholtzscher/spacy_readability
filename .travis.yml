@@ -1,29 +1,28 @@
+# Config file for automatic testing at travis-ci.org
+
 language: python
 python:
-  - "3.6"
+  - 3.6
+  - 3.5
+  - 3.4
 
-# command to install dependencies
-install:
-  # Install conda
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update conda
+# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+install: pip install -U tox-travis
 
-  # Install dependencies
-  - conda env create -n test -f environment.yml
-  - source activate test
-  - python -m spacy download en
+# Command to run tests, e.g. python setup.py test
+script: tox
 
-# command to run tests
-script:
-  - pytest
-
+# Assuming you have installed the travis-ci CLI tool, after you
+# create the Github repo and add it to Travis, run the
+# following command to finish PyPI deployment setup:
+# $ travis encrypt --add deploy.password
 deploy:
   provider: pypi
+  distributions: sdist bdist_wheel
   user: mholtzscher
   password:
     secure: vCxjgb1/+M5UUhcSBKLbkTOJBdposWIEjQZ3yv0UXAkgvUYZ7CvhDxP3Kv35bQ/TbCD3V8//Nceqvzi/CVRZD+Kil60WsJUlFXJn7UNxTRwtM/XctALetKgUellogQKmCblZB0HZdVyGyJjZoVNOuQFhq/0fI4nPyNAFQtHSJdub6syodBDzasnNNAfunSkM0av3yU1zFKltt/u/4bowMe4BwN+CXZdiR3wBf75DzGAqa8OFJhvFOxcNm51/k5XlmIGSvzd4HWFfrKdmCXVFWWk/qMm9i4QCsDHgyih+I6X45+yRFyxqasQAnMIC95g11c0HE/aOpRt52TIN+GIUVWm/acNJBdrluH4nGNFdpcU4p17bX2g99zbdCh8OqjBSwI5Qh5+yJxcGoCJUKLtUucPUFQwfzjXrU44crDM/OcI4efbEmTiQS/NtHG7fjiNs+Jwe/2ggEMk/7DHzoFKkOwp5+08zfKzOSamXnpdoXDt7jES0qUZV+8amMDG+ksEo4j7/LEUZ/x/3mZa31CCpg6lBnmPFysBncUJ3mqrL42bHE3MlmeMUjRKpR15Eq739m0k7U/QVi+A2+UmmXbJzvxV9pWXxzjE3hPG7IOLrGLxcxiEe83+uQfkHXxW7k6so3QEfcfiAi0q9NKz92EjzblTL4TKTZRv1qt1IbrO2iDo=
   on:
     tags: true
+    repo: mholtzscher/spacy_readability
+    python: 3.6

@@ -1,4 +1,11 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
+
+"""Top-level package for spacy_readability."""
+
+__author__ = """Michael Holtzscher"""
+__email__ = 'mholtz@protonmail.com'
+__version__ = '1.3.0'
+
 from math import sqrt
 
 from spacy.tokens import Doc

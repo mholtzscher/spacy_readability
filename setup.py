@@ -1,41 +1,47 @@
 #!/usr/bin/env python
-from __future__ import unicode_literals
+# -*- coding: utf-8 -*-
 
-from pathlib import Path
+"""The setup script."""
+
 from setuptools import setup, find_packages
 
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
 
-def setup_package():
-    package_name = 'spacy_readability'
-    root = Path(__file__).parent.resolve()
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
 
-    # Read in package meta from about.py
-    about_path = root / package_name / 'about.py'
-    with about_path.open('r', encoding='utf8') as f:
-        about = {}
-        exec(f.read(), about)
+requirements = ['spacy>=2.0.0,<3.0.0' ]
 
-    # Get readme
-    readme_path = root / 'README.rst'
-    with readme_path.open('r', encoding='utf8') as f:
-        readme = f.read()
+setup_requirements = ['pytest-runner', ]
 
-    setup(
-        name=package_name,
-        description=about['__summary__'],
-        long_description=readme,
-        author=about['__author__'],
-        author_email=about['__email__'],
-        url=about['__uri__'],
-        version=about['__version__'],
-        license=about['__license__'],
-        packages=find_packages(),
-        install_requires=[
-            'spacy>=2.0.0,<3.0.0',
-        ],
-        zip_safe=False,
-    )
+test_requirements = ['pytest', ]
 
-
-if __name__ == '__main__':
-    setup_package()
+setup(
+    author="Michael Holtzscher",
+    author_email='mholtz@protonmail.com',
+    classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+    ],
+    description="spaCy pipeline component for adding text readability meta data to Doc objects.",
+    install_requires=requirements,
+    license="MIT license",
+    long_description=readme + '\n\n' + history,
+    include_package_data=True,
+    keywords='spacy_readability',
+    name='spacy_readability',
+    packages=find_packages(include=['spacy_readability']),
+    setup_requires=setup_requirements,
+    test_suite='tests',
+    tests_require=test_requirements,
+    url='https://github.com/mholtzscher/spacy_readability',
+    version='1.3.0',
+    zip_safe=False,
+)
