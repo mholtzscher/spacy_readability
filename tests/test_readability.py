@@ -21,22 +21,22 @@ def test_simple(nlp):
 
 def test_integration(nlp, read):
     nlp.add_pipe(read, last=True)
-    assert nlp.pipe_names[-1] == 'readability'
+    assert 'readability' == nlp.pipe_names[-1]
 
 
 def test_sentences(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I am 2 sentences. I am the best panda?")
-    assert read.num_sentences == 2
+    assert 2 == read.num_sentences
 
 
 def test_words(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I contain four words.")
-    assert read.num_words == 4
+    assert 4 == read.num_words
 
 
 def test_syllables(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I contain four words.")
-    assert read.num_syllables == 5
+    assert 5 == read.num_syllables

@@ -1,5 +1,6 @@
 import spacy
 import pytest
+import ftfy
 
 from spacy_readability import Readability
 from .books import oliver_twist, secret_garden, flatland
@@ -19,47 +20,47 @@ def nlp():
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 11.64),
-    (secret_garden, 6.00),
-    (flatland, 13.51),
-    (textacy_corpus, 12.30)
+    (oliver_twist, 10.4),
+    (secret_garden, 4.65),
+    (flatland, 12.45),
+    (textacy_corpus, 12.0)
 ])
 def test_flesch_kincaid_grade_level(text, expected, nlp):
     doc = nlp(text)
-    assert doc._.flesch_kincaid_grade_level == pytest.approx(expected, rel=1e-2)
+    assert pytest.approx(expected, rel=1e-2) == doc._.flesch_kincaid_grade_level
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 60.94),
-    (secret_garden, 80.49),
-    (flatland, 58.11),
-    (textacy_corpus, 48.39)
+    (oliver_twist, 69.4),
+    (secret_garden, 90.17),
+    (flatland, 65.7),
+    (textacy_corpus, 50.2)
 ])
 def test_flesch_kincaid_reading_ease(text, expected, nlp):
     doc = nlp(text)
-    assert doc._.flesch_kincaid_reading_ease == pytest.approx(expected, rel=1e-2)
+    assert pytest.approx(expected, rel=1e-2) == doc._.flesch_kincaid_reading_ease
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 9.72),
-    (secret_garden, 8.49),
-    (flatland, 9.48),
-    (textacy_corpus, 10.54)
+    (oliver_twist, 7.64),
+    (secret_garden,5.83 ),
+    (flatland, 7.07),
+    (textacy_corpus, 9.63)
 ])
 def test_dale_chall(text, expected, nlp):
-    doc = nlp(text)
-    assert doc._.dale_chall == pytest.approx(expected, rel=1e-2)
+    doc = nlp(ftfy.fix_text(" ".join(text.split())))
+    assert pytest.approx(expected, rel=1e-2) == doc._.dale_chall
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 19.89),
-    (secret_garden, 13.06),
+    (oliver_twist, 19.37),
+    (secret_garden, 12.69),
     (flatland, 0),
     (textacy_corpus, 0)
 ])
 def test_smog(text, expected, nlp):
     doc = nlp(text)
-    assert expected == pytest.approx(doc._.smog, rel=1e-2)
+    assert pytest.approx(expected, rel=1e-2) == doc._.smog
 
 
 @pytest.mark.parametrize("text,expected", [
@@ -70,7 +71,7 @@ def test_smog(text, expected, nlp):
 ])
 def test_coleman_liau(text, expected, nlp):
     doc = nlp(text)
-    assert expected == pytest.approx(doc._.coleman_liau_index, rel=1e-2)
+    assert pytest.approx(expected, rel=1e-2) == doc._.coleman_liau_index
 
 
 @pytest.mark.parametrize("text,expected", [
@@ -81,4 +82,4 @@ def test_coleman_liau(text, expected, nlp):
 ])
 def test_ari(text, expected, nlp):
     doc = nlp(text)
-    assert expected == pytest.approx(doc._.automated_readability_index, rel=1e-2)
+    assert pytest.approx(expected, rel=1e-2) == doc._.automated_readability_index

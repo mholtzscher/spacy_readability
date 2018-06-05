@@ -11,6 +11,7 @@ from math import sqrt
 from spacy.tokens import Doc
 
 from .words import word_list
+import syllapy
 
 
 class Readability(object):
@@ -82,7 +83,7 @@ class Readability(object):
         diff_words_count = 0
         for word in doc:
             if not word.is_punct and "'" not in word.text:
-                if word.text.lower() not in word_list:
+                if word.text.lower() not in word_list and word.lemma_.lower() not in word_list:
                     diff_words_count += 1
 
         percent_difficult_words = 100 * diff_words_count / self.num_words
@@ -100,7 +101,6 @@ class Readability(object):
         """
         if self.num_sentences < 30 or self.num_words == 0:
             return 0
-
         num_poly = self.get_num_syllables(doc, min_syllables=3)
         return 1.0430 * sqrt(num_poly * 30 / self.num_sentences) + 3.1291
 
@@ -124,22 +124,6 @@ class Readability(object):
     def get_num_syllables(self, doc, min_syllables=1):
         # filter punctuation and words that start with apostrophe (aka contractions)
         text = (word for word in doc if not word.is_punct and "'" not in word.text)
-        syllables_per_word = tuple(self.syllables(word) for word in text)
+        syllables_per_word = tuple(syllapy.count(word.text) for word in text)
         return sum(c for c in syllables_per_word if c >= min_syllables)
 
-    def syllables(self, token):
-        count = 0
-        vowels = 'aeiouy'
-        word = token.text.lower().strip(".:;?!")
-        if word[0] in vowels:
-            count += 1
-        for index in range(1, len(word)):
-            if word[index] in vowels and word[index - 1] not in vowels:
-                count += 1
-        if word.endswith('e'):
-            count -= 1
-        if word.endswith('le') and len(word) > 2 and word[-3] not in vowels:
-            count += 1
-        if count == 0:
-            count += 1
-        return count
