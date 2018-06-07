@@ -118,8 +118,8 @@ class Readability(object):
 
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)
-        words_ = (word for word in doc if not word.is_punct and "'" not in word.text)
-        return len(list(words_))
+        filtered_words = [word for word in doc if not word.is_punct and "'" not in word.text]
+        return len(filtered_words)
 
     def get_num_syllables(self, doc, min_syllables=1):
         # filter punctuation and words that start with apostrophe (aka contractions)
