@@ -3,8 +3,8 @@
 """Top-level package for spacy_readability."""
 
 __author__ = """Michael Holtzscher"""
-__email__ = 'mholtz@protonmail.com'
-__version__ = '1.3.0'
+__email__ = "mholtz@protonmail.com"
+__version__ = "1.3.0"
 
 from math import sqrt
 
@@ -32,28 +32,28 @@ class Readability(object):
         >>> print(doc._.automated_readability_index)
     """
 
-    name = 'readability'
+    name = "readability"
 
     def __init__(self):
         """Initialise the pipeline component.
         """
-        if not Doc.has_extension('flesch_kincaid_grade_level'):
-            Doc.set_extension('flesch_kincaid_grade_level', getter=self.fk_grade)
+        if not Doc.has_extension("flesch_kincaid_grade_level"):
+            Doc.set_extension("flesch_kincaid_grade_level", getter=self.fk_grade)
 
-        if not Doc.has_extension('flesch_kincaid_reading_ease'):
-            Doc.set_extension('flesch_kincaid_reading_ease', getter=self.fk_ease)
+        if not Doc.has_extension("flesch_kincaid_reading_ease"):
+            Doc.set_extension("flesch_kincaid_reading_ease", getter=self.fk_ease)
 
-        if not Doc.has_extension('dale_chall'):
-            Doc.set_extension('dale_chall', getter=self.dale_chall)
+        if not Doc.has_extension("dale_chall"):
+            Doc.set_extension("dale_chall", getter=self.dale_chall)
 
-        if not Doc.has_extension('smog'):
-            Doc.set_extension('smog', getter=self.smog)
+        if not Doc.has_extension("smog"):
+            Doc.set_extension("smog", getter=self.smog)
 
-        if not Doc.has_extension('coleman_liau_index'):
-            Doc.set_extension('coleman_liau_index', getter=self.coleman_liau)
+        if not Doc.has_extension("coleman_liau_index"):
+            Doc.set_extension("coleman_liau_index", getter=self.coleman_liau)
 
-        if not Doc.has_extension('automated_readability_index'):
-            Doc.set_extension('automated_readability_index', getter=self.ari)
+        if not Doc.has_extension("automated_readability_index"):
+            Doc.set_extension("automated_readability_index", getter=self.ari)
 
     def __call__(self, doc):
         """Apply the pipeline component to a `Doc` object.
@@ -68,13 +68,20 @@ class Readability(object):
     def fk_grade(self, doc):
         if self.num_sentences == 0 or self.num_words == 0 or self.num_syllables == 0:
             return 0
-        return (11.8 * self.num_syllables / self.num_words) + (0.39 * self.num_words / self.num_sentences) - 15.59
+        return (
+            (11.8 * self.num_syllables / self.num_words)
+            + (0.39 * self.num_words / self.num_sentences)
+            - 15.59
+        )
 
     def fk_ease(self, doc):
         if self.num_sentences == 0 or self.num_words == 0 or self.num_syllables == 0:
             return 0
-        return 206.835 - ((1.015 * self.num_words) / self.num_sentences) - (
-                (84.6 * self.num_syllables) / self.num_words)
+        return (
+            206.835
+            - ((1.015 * self.num_words) / self.num_sentences)
+            - ((84.6 * self.num_syllables) / self.num_words)
+        )
 
     def dale_chall(self, doc):
         if self.num_sentences == 0 or self.num_words == 0:
@@ -83,7 +90,10 @@ class Readability(object):
         diff_words_count = 0
         for word in doc:
             if not word.is_punct and "'" not in word.text:
-                if word.text.lower() not in word_list and word.lemma_.lower() not in word_list:
+                if (
+                    word.text.lower() not in word_list
+                    and word.lemma_.lower() not in word_list
+                ):
                     diff_words_count += 1
 
         percent_difficult_words = 100 * diff_words_count / self.num_words
@@ -106,7 +116,9 @@ class Readability(object):
 
     def coleman_liau(self, doc):
         """Returns the Coleman-Liau index for the document."""
-        letter_count = sum([len(token) for token in doc if not token.is_punct and not token.is_digit])
+        letter_count = sum(
+            [len(token) for token in doc if not token.is_punct and not token.is_digit]
+        )
         letters_to_words = letter_count / self.num_words * 100
         sent_to_words = self.num_sentences / self.num_words * 100
         return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
@@ -114,11 +126,17 @@ class Readability(object):
     def ari(self, doc):
         """Returns the Automated Readability Index for the document."""
         letter_count = sum([len(token) for token in doc if not token.is_punct])
-        return 4.71 * (letter_count / self.num_words) + 0.5 * (self.num_words / self.num_sentences) - 21.43
+        return (
+            4.71 * (letter_count / self.num_words)
+            + 0.5 * (self.num_words / self.num_sentences)
+            - 21.43
+        )
 
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)
-        filtered_words = [word for word in doc if not word.is_punct and "'" not in word.text]
+        filtered_words = [
+            word for word in doc if not word.is_punct and "'" not in word.text
+        ]
         return len(filtered_words)
 
     def get_num_syllables(self, doc, min_syllables=1):
@@ -126,4 +144,3 @@ class Readability(object):
         text = (word for word in doc if not word.is_punct and "'" not in word.text)
         syllables_per_word = tuple(syllapy.count(word.text) for word in text)
         return sum(c for c in syllables_per_word if c >= min_syllables)
-

@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['spacy>=2.0.0,<3.0.0' ]
+requirements = ['spacy>=2.0.0,<3.0.0', 'syllapy==0.2.1']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -26,8 +26,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
     description="spaCy pipeline component for adding text readability meta data to Doc objects.",

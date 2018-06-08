@@ -4,12 +4,12 @@ import pytest
 from spacy_readability import Readability
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def nlp():
-    return spacy.load('en')
+    return spacy.load("en")
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def read():
     return Readability()
 
@@ -21,7 +21,7 @@ def test_simple(nlp):
 
 def test_integration(nlp, read):
     nlp.add_pipe(read, last=True)
-    assert 'readability' == nlp.pipe_names[-1]
+    assert "readability" == nlp.pipe_names[-1]
 
 
 def test_sentences(nlp, read):
