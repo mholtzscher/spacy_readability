@@ -20,66 +20,78 @@ def nlp():
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 10.4),
-    (secret_garden, 4.65),
-    (flatland, 12.45),
-    (textacy_corpus, 12.0)
+    (oliver_twist, 11.48),
+    (secret_garden, 5.84),
+    (flatland, 12.26),
+    (textacy_corpus, 12.30)
 ])
 def test_flesch_kincaid_grade_level(text, expected, nlp):
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
     doc = nlp(text)
     assert pytest.approx(expected, rel=1e-2) == doc._.flesch_kincaid_grade_level
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 69.4),
-    (secret_garden, 90.17),
-    (flatland, 65.7),
-    (textacy_corpus, 50.2)
+    (oliver_twist, 59.54),
+    (secret_garden, 78.72),
+    (flatland, 59.47),
+    (textacy_corpus, 46.97)
 ])
 def test_flesch_kincaid_reading_ease(text, expected, nlp):
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
     doc = nlp(text)
-    assert pytest.approx(expected, rel=1e-2) == doc._.flesch_kincaid_reading_ease
+    assert pytest.approx(expected, rel=1e-2) ==  doc._.flesch_kincaid_reading_ease
 
 
 @pytest.mark.parametrize("text,expected", [
     (oliver_twist, 7.64),
-    (secret_garden,5.83 ),
+    (secret_garden, 5.83),
     (flatland, 7.07),
     (textacy_corpus, 9.63)
 ])
 def test_dale_chall(text, expected, nlp):
-    doc = nlp(ftfy.fix_text(" ".join(text.split())))
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
+    doc = nlp(text)
     assert pytest.approx(expected, rel=1e-2) == doc._.dale_chall
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 19.37),
-    (secret_garden, 12.69),
+    (oliver_twist, 19.76),
+    (secret_garden, 12.84),
     (flatland, 0),
     (textacy_corpus, 0)
 ])
 def test_smog(text, expected, nlp):
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
     doc = nlp(text)
     assert pytest.approx(expected, rel=1e-2) == doc._.smog
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 7.14),
-    (secret_garden, 4.65),
-    (flatland, 6.26),
-    (textacy_corpus, 11.86)
+    (oliver_twist, 8.85),
+    (secret_garden, 6.38),
+    (flatland, 7.76),
+    (textacy_corpus, 12.51)
 ])
 def test_coleman_liau(text, expected, nlp):
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
     doc = nlp(text)
     assert pytest.approx(expected, rel=1e-2) == doc._.coleman_liau_index
 
 
 @pytest.mark.parametrize("text,expected", [
-    (oliver_twist, 11.64),
-    (secret_garden, 4.43),
-    (flatland, 13.8),
-    (textacy_corpus, 13.41)
+    (oliver_twist, 12.37),
+    (secret_garden, 5.30),
+    (flatland, 12.97),
+    (textacy_corpus, 13.62)
 ])
 def test_ari(text, expected, nlp):
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
     doc = nlp(text)
     assert pytest.approx(expected, rel=1e-2) == doc._.automated_readability_index
