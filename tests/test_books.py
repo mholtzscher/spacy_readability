@@ -124,3 +124,19 @@ def test_forcast(text, expected, nlp):
     text = " ".join(text.split())
     doc = nlp(text)
     assert pytest.approx(expected, rel=1e-2) == doc._.forcast
+
+
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        (oliver_twist, 0.357),
+        (secret_garden, -0.56),
+        (flatland, 1.24),
+        (textacy_corpus, 11.16),
+    ],
+)
+def test_linsear_write(text, expected, nlp):
+    text = ftfy.fix_text(text)
+    text = " ".join(text.split())
+    doc = nlp(text)
+    assert pytest.approx(expected, rel=1e-2) == doc._.linsear_write

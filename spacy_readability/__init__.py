@@ -146,6 +146,27 @@ class Readability(object):
         return 20 - (mono_syllabic / 10)
 
     def linsear_write(self, doc):
+        if self.num_words < 100:
+            return 0
+        simple_words = 0
+        complex_words = 0
+        i = 0
+        while i < 100:
+            word = doc[i]
+            if not word.is_punct and "'" not in word.text:
+                count = syllapy.count(word.text)
+                if count <= 2:
+                    simple_words += 1
+                elif count >= 3:
+                    complex_words += 1
+            i += 1
+
+        complex_words *= 3
+        total = (simple_words + complex_words) / self.num_sentences
+        if total > 20:
+            return total / 2
+        if total <= 20:
+            return (total - 2) / 2
         return 0
 
     def get_num_words(self, doc):
