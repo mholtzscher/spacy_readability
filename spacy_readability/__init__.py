@@ -77,11 +77,9 @@ class Readability(object):
     def fk_ease(self, doc):
         if self.num_sentences == 0 or self.num_words == 0 or self.num_syllables == 0:
             return 0
-        return (
-            206.835
-            - ((1.015 * self.num_words) / self.num_sentences)
-            - ((84.6 * self.num_syllables) / self.num_words)
-        )
+        words_per_sent = self.num_words / self.num_sentences
+        syllables_per_word = self.num_syllables / self.num_words
+        return 206.835 - (1.015 * words_per_sent) - (84.6 * syllables_per_word)
 
     def dale_chall(self, doc):
         if self.num_sentences == 0 or self.num_words == 0:
