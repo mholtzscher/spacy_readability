@@ -31,6 +31,7 @@ class Readability(object):
         >>> print(doc._.coleman_liau_index)
         >>> print(doc._.automated_readability_index)
         >>> print(doc._.forcast)
+        >>> print(doc._.linsear_write)
     """
 
     name = "readability"
@@ -58,6 +59,9 @@ class Readability(object):
 
         if not Doc.has_extension("forcast"):
             Doc.set_extension("forcast", getter=self.forcast)
+
+        if not Doc.has_extension("linsear_write"):
+            Doc.set_extension("linsear_write", getter=self.linsear_write)
 
     def __call__(self, doc):
         """Apply the pipeline component to a `Doc` object.
@@ -140,6 +144,9 @@ class Readability(object):
             if syllapy.count(doc[i].text) == 1:
                 mono_syllabic += 1
         return 20 - (mono_syllabic / 10)
+
+    def linsear_write(self, doc):
+        return 0
 
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)

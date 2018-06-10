@@ -55,6 +55,7 @@ Usage
     print(doc._.coleman_liau_index)
     print(doc._.automated_readability_index)
     print(doc._.forcast)
+    print(doc._.linsear_write)
 
 Readability Scores
 ******************
@@ -71,6 +72,7 @@ Popular Metrics
 - Coleman-Liau Index
 - Automated Readability Index
 - FORCAST
+- Linsear Write
 
 `For more in depth reading. <https://en.wikipedia.org/wiki/Readability>`_
 

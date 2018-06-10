@@ -53,3 +53,4 @@ def test_extensions(nlp, read):
     assert Doc.has_extension("coleman_liau_index")
     assert Doc.has_extension("automated_readability_index")
     assert Doc.has_extension("forcast")
+    assert Doc.has_extension("linsear_write")
