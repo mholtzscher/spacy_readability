@@ -128,11 +128,9 @@ class Readability(object):
     def ari(self, doc):
         """Returns the Automated Readability Index for the document."""
         letter_count = sum([len(token) for token in doc if not token.is_punct])
-        return (
-            4.71 * (letter_count / self.num_words)
-            + 0.5 * (self.num_words / self.num_sentences)
-            - 21.43
-        )
+        letter_to_words = letter_count / self.num_words
+        words_to_sents = self.num_words / self.num_sentences
+        return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
 
     def forcast(self, doc):
         if self.num_words < 150:
