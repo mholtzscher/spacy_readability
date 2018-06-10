@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['spacy>=2.0.0,<3.0.0', 'syllapy==0.2.1']
+requirements = ['spacy>=2.0.0,<3.0.0', 'syllapy']
 
 setup_requirements = ['pytest-runner', ]
 

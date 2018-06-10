@@ -35,8 +35,8 @@ Installation
 
 *****
 Usage
-*****   
-    
+*****
+
 .. code-block:: python
 
     import spacy
@@ -54,6 +54,7 @@ Usage
     print(doc._.smog)
     print(doc._.coleman_liau_index)
     print(doc._.automated_readability_index)
+    print(doc._.forcast)
 
 Readability Scores
 ******************
@@ -68,6 +69,8 @@ Popular Metrics
 - Dale-Chall formula
 - SMOG
 - Coleman-Liau Index
+- Automated Readability Index
+- FORCAST
 
 `For more in depth reading. <https://en.wikipedia.org/wiki/Readability>`_
 
