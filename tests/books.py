@@ -371,3 +371,139 @@ this very natural question will be more fitly and easily given when I
 come to describe the inhabitants of Flatland.  For the present let me
 defer this subject, and say a word or two about the climate and houses
 in our country."""
+
+grade_1 = """A train! A train!
+A train! A train!
+Could you, would you,
+On a train?
+Not on a train! Not in a tree!
+Not in a car! Sam! Let me be!
+I would not, could not, in a box.
+I could not, would not, with a fox.
+I will not eat them with a mouse.
+I will not eat them in a house.
+I will not eat them here or there.
+I will not eat them anywhere.
+I do not like green eggs and ham.
+I do not like them, Sam-I-am."""
+
+grade_2 = """Jonathan pushed back the big iron pot and stood up.
+There were no bears. But up the path came his father, carrying his gun. And with
+him were Jonathan's Uncle James and his Uncle Samuel, his Uncle John and his
+Uncle Peter. Jonathan had never in all his life been so glad to see the uncles.
+"Jonathan!'" said his father, "what a fright you have given us! Where have you
+been all this time?"
+"Coming over Hemlock Mountain," said Jonathan in a small voice. And he ran
+right into his father's arms."""
+
+grade_3 = """For months I had been telling myself that I would never put the Magic Finger
+upon anyone again—not after what happened to my teacher, old Mrs. Winter.
+Poor old Mrs. Winter.
+One day we were in class, and she was teaching us spelling. "Stand up," she said
+to me, "and spell kat."
+"That's an easy one," I said. "K-a-t."
+"You are a stupid little girl!" Mrs. Winter said.
+"I am not a stupid little girl!" I cried. "I am a very nice little girl!"
+"Go and stand in the corner," Mrs. Winter said.
+Then I got cross, and I saw red, and I put the Magic Finger on Mrs. Winter good
+and strong, and almost at once...
+Guess what?
+Whiskers began growing out of her face! They were long black whiskers, just
+like the little ones you see on a kat, only much bigger. And how fast they grew!
+Before we had time to think, they were out to her ears!"""
+
+grade_4 = """The wheelbarrow picked up speed, so quickly that it sort of kicked up like a
+whipped horse. I thought the handle was going to rip right out of my fingers.
+"Hang on," I said.
+"If I can," said Soup.
+We were running now, full speed, smack down Sutter's Hill and heading full tilt
+toward the party. Ahead of us, the giant pumpkin bounced around inside the bin
+of the barrow. I felt like we'd stolen the moon.
+"We're out of control!" yelled Soup.
+"Turn it. Do anything, anything!"
+"Can't."
+The front door of the Baptist Church grew bigger and bigger, rushing toward us
+like a mad monster. My feet hardly touched the ground. I was too frightened to
+hang on much longer, yet frightened even more to let loose. Soup was screaming
+and so was I.
+"Stop," wailed Soup.
+From the street, there was one step up to the door of the Baptist Church. The
+door was closed."""
+
+grade_6 = """"Brothers. What do you expect of me—to stand idly by while you burn my son?
+My son has brought death to none of us. The scratches he gave us are not on our
+bodies but our pride. Brothers. How if my son is burnt do I go back and face her
+who lives with me in my house? How do I look in the eyes of his sisters who
+think the rainbow arches over him? Brothers. It is easier for me to fight you all
+than go back and say that Cuyloga stood by and did nothing while his brothers
+in anger put his son to the fire."
+With the quickness of Long Tail, the panther, he took his knife and cut the boy's
+thongs. Then he stood there waiting for the attack, but none came. The warriors 
+were too astonished. They watched, sullen and yet fascinated by the drama. This
+was the great Cuyloga at his bravest that they looked upon, and none knew what
+he would do next"""
+
+grade_8 = """All day Buck brooded by the pool or roamed restlessly about the camp. Death,
+as a cessation of movement, as a passing out and away from the lives of the
+living, he knew, and he knew John Thornton was dead. It left a great void in him
+somewhat akin to hunger, but a void which ached and ached, and which food
+could not fill. At times when he paused to contemplate the carcasses of the
+Yeehats, he forgot the pain of it; and at such times he was aware of a great pride
+in himself—a pride greater than any he had yet experienced. He had killed man,
+the noblest game of all, and he had killed in the face of the law of club and fang.
+He sniffed the bodies curiously. They had died so easily. I was harder to kill a
+husky dog than them. They were no match at all, were it not for their arrows and
+spears and clubs. Thenceforward he would be unafraid of them except when
+they bore in their hands their arrows, spears, and clubs."""
+
+grade_10 = """Looking upward, I surveyed the ceiling of my prison. It was some thirty or forty
+feet overhead, and constructed much as the side walls. In one of its panels a very
+singular figure riveted my whole attention. It was the painted figure of Time as
+he is commonly represented, save that, in lieu of a scythe, he held what, at a
+casual glance, I supposed to be the pictured image of a huge pendulum, such as
+we see on antique clocks. There was something, however, in the appearance of
+this machine which caused me to regard it more attentively. While I gazed
+directly upward at it (for its position was immediately over my own) I fancied
+that I saw it in motion. In an instant afterward the fancy was confirmed. Its
+sweep was brief, and of course slow. I watched it for some minutes somewhat in
+fear, but more in wonder. Wearied at length with observing its dull movement, I
+turned my eyes upon the other objects in the cell.
+A slight noise attracted my notice, and, looking to the floor, I saw several
+enormous rats traversing it. They had issued from the wall which lay just within
+view to my right."""
+
+grade_12 = """For the rest he lived solitary, but not misanthropic, with his books and his
+collection, classing and arranging specimens, corresponding with entomologists
+in Europe, writing up a descriptive catalogue of his treasures. Such was the
+history of the man whom I had come to consult upon Jim's case without any
+definite hope. Simply to hear what he would have to say would have been a
+relief. I was very anxious, but I respected the intense, almost passionate,
+absorption with which he looked at a butterfly, as though on the bronze sheen of
+these frail wings, in the white tracings, in the gorgeous markings, he could see
+other things, an image of something as perishable and defying destruction as
+these delicate and lifeless tissues displaying a splendour unmarked by death.
+"Marvellous!" he repeated, looking up at me. "Look! The beauty—but that is
+nothing—look at the accuracy, the harmony. And so fragile! And so strong! And
+so exact! This is Nature—the balance of colossal forces. Every star is so—and
+every blade of grass stands so—the mighty Kosmos in perfect equilibrium
+produces—this. This wonder; this masterpiece of Nature—the great artist.\""""
+
+grade_14 = """It would have been in consonance with the spirit of Captain Vere should
+he on this occasion have concealed nothing from the condemned one;
+should he indeed have frankly disclosed to him the part he himself had
+played in bringing about the decision, at the same time revealing his
+actuated motives. On Billy's side it is not improbable that such a
+confession would have been received in much the same spirit that
+prompted it. Not without a sort of joy indeed he might have appreciated
+the brave opinion of him implied in his captain making such a confidant
+of him. Nor as to the sentence itself could he have been insensible that it
+was imparted to him as to one not afraid to die. Even more may have 
+Graded Text Samples
+Impact Information. Page 9
+been. Captain Vere in the end may have developed the passion
+sometimes latent under an exterior stoical or indifferent. He was old
+enough to have been Billy's father. The austere devotee of military duty,
+letting himself melt back into what remains primeval in our formalised
+humanity, may in the end have caught Billy to his heart, even as
+Abraham may have caught young Isaac on the brink of resolutely
+offering him up in obedience to the exacting behest. """
