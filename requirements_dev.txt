@@ -10,6 +10,6 @@ twine==1.11.0
 
 pytest==3.7.3
 pytest-runner==4.2
-syllapy==0.3.0
+syllapy==0.4.0
 ftfy==5.4.1
 black==18.6b3
