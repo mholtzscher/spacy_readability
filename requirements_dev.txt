@@ -12,4 +12,4 @@ pytest==3.8.1
 pytest-runner==4.2
 syllapy==0.4.0
 ftfy==5.4.1
-black==18.6b3
+black==18.9b0
