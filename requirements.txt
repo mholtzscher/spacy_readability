@@ -1,2 +1,2 @@
-spacy==2.0.12
+spacy==2.0.13
 syllapy==0.4.0
