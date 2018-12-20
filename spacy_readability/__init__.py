@@ -135,7 +135,7 @@ class Readability(object):
             sent_to_words = num_sentences / num_words * 100
             return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
         else:
-            return None
+             return 0
 
     def ari(self, doc):
         """Returns the Automated Readability Index for the document."""
