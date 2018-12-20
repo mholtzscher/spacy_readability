@@ -147,7 +147,7 @@ class Readability(object):
             words_to_sents = num_words / num_sentences
             return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
         else:
-            return None
+             return 0
 
     def forcast(self, doc):
         num_words = self.get_num_words(doc)
