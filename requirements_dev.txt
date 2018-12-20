@@ -8,7 +8,7 @@ coverage==4.5.2
 Sphinx==1.8.2
 twine==1.12.1
 
-pytest==3.8.2
+pytest==4.0.2
 pytest-runner==4.2
 ftfy==5.4.1
 black==18.9b0
