@@ -28,19 +28,19 @@ def test_integration(nlp, read):
 def test_sentences(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I am 2 sentences. I am the best panda?")
-    assert 2 == read.num_sentences
+    assert 2 == read.get_num_sentences(doc)
 
 
 def test_words(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I contain four words.")
-    assert 4 == read.num_words
+    assert 4 == read.get_num_words(doc)
 
 
 def test_syllables(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I contain four words.")
-    assert 5 == read.num_syllables
+    assert 5 == read.get_num_syllables(doc)
 
 
 def test_extensions(nlp, read):
