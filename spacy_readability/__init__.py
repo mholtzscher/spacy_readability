@@ -64,29 +64,34 @@ class Readability(object):
         doc (Doc): The `Doc` returned by the previous pipeline component.
         RETURNS (Doc): The modified `Doc` object.
         """
-        self.num_sentences = len(list(doc.sents))
-        self.num_words = self.get_num_words(doc)
-        self.num_syllables = self.get_num_syllables(doc)
         return doc
 
     def fk_grade(self, doc):
-        if self.num_sentences == 0 or self.num_words == 0 or self.num_syllables == 0:
+        num_sentences = self.get_num_sentences(doc)
+        num_words = self.get_num_words(doc)
+        num_syllables = self.get_num_syllables(doc)
+        if num_sentences == 0 or num_words == 0 or num_syllables == 0:
             return 0
         return (
-            (11.8 * self.num_syllables / self.num_words)
-            + (0.39 * self.num_words / self.num_sentences)
+            (11.8 * num_syllables / num_words)
+            + (0.39 * num_words / num_sentences)
             - 15.59
         )
 
     def fk_ease(self, doc):
-        if self.num_sentences == 0 or self.num_words == 0 or self.num_syllables == 0:
+        num_sentences = self.get_num_sentences(doc)
+        num_words = self.get_num_words(doc)
+        num_syllables = self.get_num_syllables(doc)
+        if num_sentences == 0 or num_words == 0 or num_syllables == 0:
             return 0
-        words_per_sent = self.num_words / self.num_sentences
-        syllables_per_word = self.num_syllables / self.num_words
+        words_per_sent = num_words / num_sentences
+        syllables_per_word = num_syllables / num_words
         return 206.835 - (1.015 * words_per_sent) - (84.6 * syllables_per_word)
 
     def dale_chall(self, doc):
-        if self.num_sentences == 0 or self.num_words == 0:
+        num_sentences = self.get_num_sentences(doc)
+        num_words = self.get_num_words(doc)
+        if num_sentences == 0 or num_words == 0:
             return 0
 
         diff_words_count = 0
@@ -98,8 +103,8 @@ class Readability(object):
                 ):
                     diff_words_count += 1
 
-        percent_difficult_words = 100 * diff_words_count / self.num_words
-        average_sentence_length = self.num_words / self.num_sentences
+        percent_difficult_words = 100 * diff_words_count / num_words
+        average_sentence_length = num_words / num_sentences
         grade = 0.1579 * percent_difficult_words + 0.0496 * average_sentence_length
 
         # if percent difficult words is about 5% then adjust score
@@ -111,29 +116,43 @@ class Readability(object):
         """Returns the SMOG score for the document. If there are less than 30 sentences then
         it returns 0 because he formula significantly loses accuracy on small corpora.
         """
-        if self.num_sentences < 30 or self.num_words == 0:
+        num_sentences = self.get_num_sentences(doc)
+        num_words = self.get_num_words(doc)
+        if num_sentences < 30 or num_words == 0:
             return 0
         num_poly = self.get_num_syllables(doc, min_syllables=3)
-        return 1.0430 * sqrt(num_poly * 30 / self.num_sentences) + 3.1291
+        return 1.0430 * sqrt(num_poly * 30 / num_sentences) + 3.1291
 
     def coleman_liau(self, doc):
         """Returns the Coleman-Liau index for the document."""
-        letter_count = sum(
-            [len(token) for token in doc if not token.is_punct and not token.is_digit]
-        )
-        letters_to_words = letter_count / self.num_words * 100
-        sent_to_words = self.num_sentences / self.num_words * 100
-        return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
+        num_words = self.get_num_words(doc)
+        if num_words > 0:
+            num_sentences = self.get_num_sentences(doc)
+            letter_count = sum(
+                [len(token) for token in doc if not token.is_punct and not token.is_digit]
+            )
+            letters_to_words = letter_count / num_words * 100
+            sent_to_words = num_sentences / num_words * 100
+            return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
+        else:
+            return None
 
     def ari(self, doc):
         """Returns the Automated Readability Index for the document."""
-        letter_count = sum([len(token) for token in doc if not token.is_punct])
-        letter_to_words = letter_count / self.num_words
-        words_to_sents = self.num_words / self.num_sentences
-        return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
+        num_sentences = self.get_num_sentences(doc)
+        num_words = self.get_num_words(doc)
+        if num_words > 0:
+            letter_count = sum([len(token) for token in doc if not token.is_punct])
+            letter_to_words = letter_count / num_words
+            words_to_sents = num_words / num_sentences
+            return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
+        else:
+            return None
 
     def forcast(self, doc):
-        if self.num_words < 150:
+        num_words = self.get_num_words(doc)
+
+        if num_words < 150:
             return 0
         mono_syllabic = 0
         for i in range(150):
@@ -141,6 +160,11 @@ class Readability(object):
                 mono_syllabic += 1
         return 20 - (mono_syllabic / 10)
 
+    def get_num_sentences(self, doc: Doc):
+        """Return number of sentences in the document
+        """
+        return len(list(doc.sents))
+    
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)
         filtered_words = [
