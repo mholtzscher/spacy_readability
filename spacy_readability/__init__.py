@@ -7,23 +7,22 @@ __email__ = "mholtz@protonmail.com"
 __version__ = "1.3.0"
 
 from math import sqrt
-
 from spacy.tokens import Doc
-
-from .words import word_list
 import syllapy
 
+from .words import DALE_CHALL_WORDS
 
-class Readability(object):
-    """spaCy v2.0 pipeline component for calculating readability scores of of text. Provides scores for
-    Flesh-Kincaid grade level, Flesh-Kincaid reading ease, and Dale-Chall.
+
+class Readability:
+    """spaCy v2.0 pipeline component for calculating readability scores of of text.
+    Provides scores for Flesh-Kincaid grade level, Flesh-Kincaid reading ease, and Dale-Chall.
     USAGE:
         >>> import spacy
         >>> from spacy_readability import Readability
         >>> nlp = spacy.load('en')
         >>> read = Readability()
         >>> nlp.add_pipe(read, last=True)
-        >>> doc = nlp("I am some really difficult text to read because I use obnoxiously large words.")
+        >>> doc = nlp("I am some really difficult text. I use obnoxiously large words.")
         >>> print(doc._.flesch_kincaid_grade_level)
         >>> print(doc._.flesch_kincaid_reading_ease)
         >>> print(doc._.dale_chall)
@@ -67,9 +66,11 @@ class Readability(object):
         return doc
 
     def fk_grade(self, doc):
-        num_sentences = self.get_num_sentences(doc)
-        num_words = self.get_num_words(doc)
-        num_syllables = self.get_num_syllables(doc)
+        """Returns the Flesch-Kincaid grade for the document.
+        """
+        num_sentences = _get_num_sentences(doc)
+        num_words = _get_num_words(doc)
+        num_syllables = _get_num_syllables(doc)
         if num_sentences == 0 or num_words == 0 or num_syllables == 0:
             return 0
         return (
@@ -79,9 +80,11 @@ class Readability(object):
         )
 
     def fk_ease(self, doc):
-        num_sentences = self.get_num_sentences(doc)
-        num_words = self.get_num_words(doc)
-        num_syllables = self.get_num_syllables(doc)
+        """Returns the Flesch-Kincaid Reading Ease score for the document.
+        """
+        num_sentences = _get_num_sentences(doc)
+        num_words = _get_num_words(doc)
+        num_syllables = _get_num_syllables(doc)
         if num_sentences == 0 or num_words == 0 or num_syllables == 0:
             return 0
         words_per_sent = num_words / num_sentences
@@ -89,8 +92,10 @@ class Readability(object):
         return 206.835 - (1.015 * words_per_sent) - (84.6 * syllables_per_word)
 
     def dale_chall(self, doc):
-        num_sentences = self.get_num_sentences(doc)
-        num_words = self.get_num_words(doc)
+        """Returns the Dale-Chall score for the document.
+        """
+        num_sentences = _get_num_sentences(doc)
+        num_words = _get_num_words(doc)
         if num_sentences == 0 or num_words == 0:
             return 0
 
@@ -98,8 +103,8 @@ class Readability(object):
         for word in doc:
             if not word.is_punct and "'" not in word.text:
                 if (
-                    word.text.lower() not in word_list
-                    and word.lemma_.lower() not in word_list
+                    word.text.lower() not in DALE_CHALL_WORDS
+                    and word.lemma_.lower() not in DALE_CHALL_WORDS
                 ):
                     diff_words_count += 1
 
@@ -116,68 +121,74 @@ class Readability(object):
         """Returns the SMOG score for the document. If there are less than 30 sentences then
         it returns 0 because he formula significantly loses accuracy on small corpora.
         """
-        num_sentences = self.get_num_sentences(doc)
-        num_words = self.get_num_words(doc)
+        num_sentences = _get_num_sentences(doc)
+        num_words = _get_num_words(doc)
         if num_sentences < 30 or num_words == 0:
             return 0
-        num_poly = self.get_num_syllables(doc, min_syllables=3)
+        num_poly = _get_num_syllables(doc, min_syllables=3)
         return 1.0430 * sqrt(num_poly * 30 / num_sentences) + 3.1291
 
     def coleman_liau(self, doc):
         """Returns the Coleman-Liau index for the document."""
-        num_words = self.get_num_words(doc)
-        if num_words > 0:
-            num_sentences = self.get_num_sentences(doc)
-            letter_count = sum(
-                [
-                    len(token)
-                    for token in doc
-                    if not token.is_punct and not token.is_digit
-                ]
-            )
-            letters_to_words = letter_count / num_words * 100
-            sent_to_words = num_sentences / num_words * 100
-            return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
-        else:
+        num_words = _get_num_words(doc)
+        if num_words <= 0:
             return 0
+
+        num_sentences = _get_num_sentences(doc)
+        letter_count = sum(
+            [len(token) for token in doc if not token.is_punct and not token.is_digit]
+        )
+        letters_to_words = letter_count / num_words * 100
+        sent_to_words = num_sentences / num_words * 100
+        return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
 
     def ari(self, doc):
         """Returns the Automated Readability Index for the document."""
-        num_sentences = self.get_num_sentences(doc)
-        num_words = self.get_num_words(doc)
-        if num_words > 0:
-            letter_count = sum([len(token) for token in doc if not token.is_punct])
-            letter_to_words = letter_count / num_words
-            words_to_sents = num_words / num_sentences
-            return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
-        else:
+        num_sentences = _get_num_sentences(doc)
+        num_words = _get_num_words(doc)
+        if num_words <= 0:
             return 0
 
+        letter_count = sum([len(token) for token in doc if not token.is_punct])
+        letter_to_words = letter_count / num_words
+        words_to_sents = num_words / num_sentences
+        return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
+
     def forcast(self, doc):
-        num_words = self.get_num_words(doc)
+        """Returns the Forcast score for the document.
+        """
+        num_words = _get_num_words(doc)
 
         if num_words < 150:
             return 0
+
         mono_syllabic = 0
         for i in range(150):
             if syllapy.count(doc[i].text) == 1:
                 mono_syllabic += 1
         return 20 - (mono_syllabic / 10)
 
-    def get_num_sentences(self, doc: Doc):
-        """Return number of sentences in the document
-        """
-        return len(list(doc.sents))
 
-    def get_num_words(self, doc):
-        # filter punctuation and words that start with apostrophe (aka contractions)
-        filtered_words = [
-            word for word in doc if not word.is_punct and "'" not in word.text
-        ]
-        return len(filtered_words)
+def _get_num_sentences(doc: Doc):
+    """Return number of sentences in the document
+    """
+    return len(list(doc.sents))
 
-    def get_num_syllables(self, doc, min_syllables=1):
-        # filter punctuation and words that start with apostrophe (aka contractions)
-        text = (word for word in doc if not word.is_punct and "'" not in word.text)
-        syllables_per_word = tuple(syllapy.count(word.text) for word in text)
-        return sum(c for c in syllables_per_word if c >= min_syllables)
+
+def _get_num_words(doc: Doc):
+    """Return number of words in the document.
+    Filters punctuation and words that start with apostrophe (aka contractions)
+    """
+    filtered_words = [
+        word for word in doc if not word.is_punct and "'" not in word.text
+    ]
+    return len(filtered_words)
+
+
+def _get_num_syllables(doc: Doc, min_syllables: int = 1):
+    """Return number of words in the document.
+    Filters punctuation and words that start with apostrophe (aka contractions)
+    """
+    text = (word for word in doc if not word.is_punct and "'" not in word.text)
+    syllables_per_word = tuple(syllapy.count(word.text) for word in text)
+    return sum(c for c in syllables_per_word if c >= min_syllables)

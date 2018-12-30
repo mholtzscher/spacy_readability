@@ -2,7 +2,12 @@ import spacy
 import pytest
 
 from spacy.tokens import Doc
-from spacy_readability import Readability
+from spacy_readability import (
+    Readability,
+    _get_num_sentences,
+    _get_num_syllables,
+    _get_num_words,
+)
 
 
 @pytest.fixture(scope="function")
@@ -28,19 +33,19 @@ def test_integration(nlp, read):
 def test_sentences(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I am 2 sentences. I am the best panda?")
-    assert 2 == read.get_num_sentences(doc)
+    assert 2 == _get_num_sentences(doc)
 
 
 def test_words(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I contain four words.")
-    assert 4 == read.get_num_words(doc)
+    assert 4 == _get_num_words(doc)
 
 
 def test_syllables(nlp, read):
     nlp.add_pipe(read, last=True)
     doc = nlp("I contain four words.")
-    assert 5 == read.get_num_syllables(doc)
+    assert 5 == _get_num_syllables(doc)
 
 
 def test_extensions(nlp, read):
