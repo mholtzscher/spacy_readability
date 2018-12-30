@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "spacy_readability"
+version = "1.3.0"
+description = "spaCy pipeline component for adding text readability meta data to Doc objects."
+authors = ["Michael Holtzscher <mholtz@protonmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+syllapy = "^0.6.0"
+spacy = "^2.0"
+ 
+[tool.poetry.dev-dependencies]
+pytest = "^3.9"
+pytest-runner = "^4.2"
+black = "^18.3-alpha.0"
+ftfy = "^5.5"
+pylint = "^2.1"
+mypy = "^0.641.0"
+codecov = "^2.0"
+pytest-cov = "^2.6"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

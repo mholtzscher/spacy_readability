@@ -129,13 +129,17 @@ class Readability(object):
         if num_words > 0:
             num_sentences = self.get_num_sentences(doc)
             letter_count = sum(
-                [len(token) for token in doc if not token.is_punct and not token.is_digit]
+                [
+                    len(token)
+                    for token in doc
+                    if not token.is_punct and not token.is_digit
+                ]
             )
             letters_to_words = letter_count / num_words * 100
             sent_to_words = num_sentences / num_words * 100
             return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
         else:
-             return 0
+            return 0
 
     def ari(self, doc):
         """Returns the Automated Readability Index for the document."""
@@ -147,7 +151,7 @@ class Readability(object):
             words_to_sents = num_words / num_sentences
             return 4.71 * letter_to_words + 0.5 * words_to_sents - 21.43
         else:
-             return 0
+            return 0
 
     def forcast(self, doc):
         num_words = self.get_num_words(doc)
@@ -164,7 +168,7 @@ class Readability(object):
         """Return number of sentences in the document
         """
         return len(list(doc.sents))
-    
+
     def get_num_words(self, doc):
         # filter punctuation and words that start with apostrophe (aka contractions)
         filtered_words = [
