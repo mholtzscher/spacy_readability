@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.6"
-syllapy = "^0.6.0"
+syllapy = "^0"
 spacy = "^2.0"
  
 [tool.poetry.dev-dependencies]
