@@ -1,4 +1,7 @@
-word_list = [
+"""
+Dale-Chall word list.
+"""
+DALE_CHALL_WORDS = [
     "a",
     "able",
     "aboard",
