@@ -1,7 +1,7 @@
 """
 Dale-Chall word list.
 """
-DALE_CHALL_WORDS = [
+DALE_CHALL_WORDS = (
     "a",
     "able",
     "aboard",
@@ -2952,4 +2952,4 @@ DALE_CHALL_WORDS = [
     "yourselves",
     "youth",
     "you've",
-]
+)
