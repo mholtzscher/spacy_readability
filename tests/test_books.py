@@ -14,32 +14,27 @@ def nlp():
     return pipeline
 
 
+def validate_book(nlp, book):
+    doc = nlp(book["text"])
+    assert doc._.flesch_kincaid_grade_level == pytest.approx(book["fk_grade"], rel=1e-2)
+    assert doc._.flesch_kincaid_reading_ease == pytest.approx(book["fk_ease"], rel=1e-2)
+    assert doc._.coleman_liau_index == pytest.approx(book["coleman_liau"], rel=1e-2)
+    assert doc._.automated_readability_index == pytest.approx(book["ari"], rel=1e-2)
+    assert doc._.smog == pytest.approx(book["smog"], rel=1e-2)
+    assert doc._.dale_chall == pytest.approx(book["dale_chall"], rel=1e-2)
+    assert doc._.forcast == pytest.approx(book["forcast"], rel=1e-2)
+
+
 def test_peter_rabbit(nlp):
     with open("tests/samples/peter_rabbit.json") as fp:
         data = json.load(fp)
-
-    doc = nlp(data["text"])
-    assert doc._.flesch_kincaid_grade_level == pytest.approx(data["fk_grade"], rel=1e-2)
-    assert doc._.flesch_kincaid_reading_ease == pytest.approx(data["fk_ease"], rel=1e-2)
-    assert doc._.coleman_liau_index == pytest.approx(data["coleman_liau"], rel=1e-2)
-    assert doc._.automated_readability_index == pytest.approx(data["ari"], rel=1e-2)
-    assert doc._.smog == pytest.approx(data["smog"], rel=1e-2)
-    assert doc._.dale_chall == pytest.approx(data["dale_chall"], rel=1e-2)
-    assert doc._.forcast == pytest.approx(data["forcast"], rel=1e-2)
+    validate_book(nlp, data)
 
 
 def test_tale_two_cities(nlp):
     with open("tests/samples/tale_of_two_cities.json") as fp:
         data = json.load(fp)
-
-    doc = nlp(data["text"])
-    assert doc._.flesch_kincaid_grade_level == pytest.approx(data["fk_grade"], rel=1e-2)
-    assert doc._.flesch_kincaid_reading_ease == pytest.approx(data["fk_ease"], rel=1e-2)
-    assert doc._.coleman_liau_index == pytest.approx(data["coleman_liau"], rel=1e-2)
-    assert doc._.automated_readability_index == pytest.approx(data["ari"], rel=1e-2)
-    assert doc._.smog == pytest.approx(data["smog"], rel=1e-2)
-    assert doc._.dale_chall == pytest.approx(data["dale_chall"], rel=1e-2)
-    assert doc._.forcast == pytest.approx(data["forcast"], rel=1e-2)
+    validate_book(nlp, data)
 
 
 @pytest.mark.parametrize(
