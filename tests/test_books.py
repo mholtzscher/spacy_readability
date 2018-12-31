@@ -1,3 +1,4 @@
+import json
 import spacy
 import pytest
 import ftfy
@@ -11,6 +12,20 @@ def nlp():
     pipeline = spacy.load("en")
     pipeline.add_pipe(Readability())
     return pipeline
+
+
+def test_peter_rabbit(nlp):
+    with open("tests/samples/peter_rabbit.json") as fp:
+        data = json.load(fp)
+
+    doc = nlp(data["text"])
+    assert doc._.flesch_kincaid_grade_level == pytest.approx(data["fk_grade"], rel=1e-2)
+    assert doc._.flesch_kincaid_reading_ease == pytest.approx(data["fk_ease"], rel=1e-2)
+    assert doc._.coleman_liau_index == pytest.approx(data["coleman_liau"], rel=1e-2)
+    assert doc._.automated_readability_index == pytest.approx(data["ari"], rel=1e-2)
+    assert doc._.smog == pytest.approx(data["smog"], rel=1e-2)
+    assert doc._.dale_chall == pytest.approx(data["dale_chall"], rel=1e-2)
+    assert doc._.forcast == pytest.approx(data["forcast"], rel=1e-2)
 
 
 @pytest.mark.parametrize(
