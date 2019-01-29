@@ -58,3 +58,16 @@ def test_extensions(nlp, read):
     assert Doc.has_extension("coleman_liau_index")
     assert Doc.has_extension("automated_readability_index")
     assert Doc.has_extension("forcast")
+
+
+@pytest.mark.parametrize("text,expected", [("", 0), ("#", 0)])
+def test_edge_scenarios(text, expected, nlp, read):
+    nlp.add_pipe(read, last=True)
+    doc = nlp(text)
+    assert doc._.flesch_kincaid_grade_level == expected
+    assert doc._.flesch_kincaid_reading_ease == expected
+    assert doc._.coleman_liau_index == expected
+    assert doc._.automated_readability_index == expected
+    assert doc._.smog == expected
+    assert doc._.dale_chall == expected
+    assert doc._.forcast == expected
