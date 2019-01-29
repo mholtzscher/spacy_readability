@@ -138,6 +138,8 @@ class Readability:
         letter_count = sum(
             [len(token) for token in doc if not token.is_punct and not token.is_digit]
         )
+        if letter_count <= 0:
+            return 0
         letters_to_words = letter_count / num_words * 100
         sent_to_words = num_sentences / num_words * 100
         return 0.0588 * letters_to_words - 0.296 * sent_to_words - 15.8
