@@ -4,7 +4,7 @@
 
 __author__ = """Michael Holtzscher"""
 __email__ = "mholtz@protonmail.com"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 
 from math import sqrt
 from spacy.tokens import Doc
