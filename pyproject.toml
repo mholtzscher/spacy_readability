@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "spacy_readability"
-version = "1.4.0"
+version = "1.4.1"
 description = "spaCy pipeline component for adding text readability meta data to Doc objects."
 authors = ["Michael Holtzscher <mholtz@protonmail.com>"]
 license = "MIT"
